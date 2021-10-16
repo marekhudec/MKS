@@ -28,7 +28,9 @@ static volatile uint32_t Tick;
 
 # define LED_TIME_BLINK 300
 # define BUTTON_DEBOUNCE 40
+# define BUTTON_DEBOUNCE_SHORT 5
 # define LED_TIME_SHORT 100
+# define LED_TIME_LONG 1000
 
 void EXTI0_1_IRQHandler(void)
  {
@@ -54,18 +56,27 @@ void blikac(void)
 
 void tlacitka(void)
  {
-	static uint32_t debounce;
+	static uint32_t debounce1;
+	static uint32_t debounce2;
 	static uint32_t off_time;
-	if(Tick > debounce + BUTTON_DEBOUNCE){
+	if(Tick > debounce1 + BUTTON_DEBOUNCE){
 		 static uint32_t old_s2;
+		 static uint32_t old_s1;
 		 uint32_t new_s2 = GPIOC->IDR & (1<<0);
-
+		 uint32_t new_s1 = GPIOC->IDR & (1<<1);
 		 if (old_s2 && !new_s2) { // falling edge
 			 off_time = Tick + LED_TIME_SHORT;
 			 GPIOB->BSRR = (1<<0);
 		 }
+		 if (old_s1 && !new_s1) { // falling edge
+		 	 off_time = Tick + LED_TIME_LONG;
+		 	 GPIOB->BSRR = (1<<0);
+		 }
 		 old_s2 = new_s2;
+		 old_s1 = new_s1;
+		 debounce1 = Tick;
 	}
+
 
 	if (Tick > off_time) {
 		GPIOB->BRR = (1<<0);
@@ -88,7 +99,7 @@ int main(void)
 	 EXTI->IMR |= EXTI_IMR_MR0; // mask
 	 EXTI->FTSR |= EXTI_FTSR_TR0; // trigger on falling edge
 	 NVIC_EnableIRQ(EXTI0_1_IRQn); // enable EXTI0_1
-/*
+	/*
 	 /* Loop forever */
 	 for (;;) {
 		blikac();
