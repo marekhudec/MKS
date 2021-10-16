@@ -76,7 +76,17 @@ void tlacitka(void)
 		 old_s1 = new_s1;
 		 debounce1 = Tick;
 	}
-
+	if(Tick > debounce2 + BUTTON_DEBOUNCE_SHORT)
+	{
+		static uint16_t debounce = 0xFFFF;
+		debounce <<= 1;
+		if(GPIOC->IDR & (1<<1)) debounce |= 0x0001;
+		if(debounce == 0x8000) {
+			off_time = Tick + LED_TIME_LONG;
+			GPIOB->BSRR = (1<<0);
+		}
+		debounce2 = Tick;
+	}
 
 	if (Tick > off_time) {
 		GPIOB->BRR = (1<<0);
