@@ -68,53 +68,53 @@ static void MX_TIM1_Init(void);
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
+	/* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
+	/* USER CODE END 1 */
 
-  /* MCU Configuration--------------------------------------------------------*/
+	/* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
 
-  /* USER CODE BEGIN Init */
+	/* USER CODE BEGIN Init */
 
-  /* USER CODE END Init */
+	/* USER CODE END Init */
 
-  /* Configure the system clock */
-  SystemClock_Config();
+	/* Configure the system clock */
+	SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
+	/* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
+	/* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_USART2_UART_Init();
-  MX_TIM1_Init();
-  /* USER CODE BEGIN 2 */
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_USART2_UART_Init();
+	MX_TIM1_Init();
+	/* USER CODE BEGIN 2 */
 
 
 
-  sct_init();
-  sct_led(0x7A5C36DE);
-  HAL_Delay(1000);
-  /* USER CODE END 2 */
+	sct_init();
+	sct_led(0x7A5C36DE);
+	HAL_Delay(1000);
+	/* USER CODE END 2 */
 
-  HAL_TIM_Encoder_Start(&htim1, htim1.Channel);
+	HAL_TIM_Encoder_Start(&htim1, htim1.Channel);
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
+	/* Infinite loop */
+	/* USER CODE BEGIN WHILE */
+	while (1)
+	{
+		/* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
-	 sct_value(__HAL_TIM_GET_COUNTER(&htim1));
-	 HAL_Delay(50);
-  }
+		/* USER CODE BEGIN 3 */
+		sct_value(__HAL_TIM_GET_COUNTER(&htim1));
+		HAL_Delay(50);
+	}
 
-  /* USER CODE END 3 */
+	/* USER CODE END 3 */
 }
 
 /**
