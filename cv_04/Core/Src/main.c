@@ -32,6 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define ADC_Q 14
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -64,7 +65,11 @@ static void MX_ADC_Init(void);
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
- raw_pot = HAL_ADC_GetValue(hadc);
+	static uint32_t avg_pot;
+
+	raw_pot = avg_pot >> ADC_Q;
+	avg_pot -= raw_pot;
+	avg_pot += HAL_ADC_GetValue(hadc);
 }
 /* USER CODE END 0 */
 
