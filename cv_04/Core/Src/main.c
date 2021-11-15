@@ -140,9 +140,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
+	  /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
+	  /* USER CODE BEGIN 3 */
 	  static enum { SHOW_POT, SHOW_VOLT, SHOW_TEMP } state = SHOW_POT;
 	  static uint32_t delay;
 	  if(state == SHOW_POT) {
@@ -163,8 +163,7 @@ int main(void)
 
 	  if ((GPIOC->IDR & (1<<0)) == 0) state = SHOW_TEMP;
 	  if ((GPIOC->IDR & (1<<1)) == 0) state = SHOW_VOLT;
-	 if (HAL_GetTick() > delay + 1000) state = SHOW_POT;
-
+	  if (HAL_GetTick() > delay + 1000) state = SHOW_POT;
 
   }
   /* USER CODE END 3 */
